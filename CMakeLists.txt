@@ -21,13 +21,13 @@ SET( ${PROJECT_NAME}_VERSION_PATCH 0 )
 FIND_PACKAGE( ILCUTIL REQUIRED COMPONENTS ILCSOFT_CMAKE_MODULES )
 
 FIND_PACKAGE(ROOT REQUIRED)
-INCLUDE_DIRECTORIES( ${ROOT_INCLUDE_DIRS} )
+INCLUDE_DIRECTORIES(SYSTEM ${ROOT_INCLUDE_DIRS})
 
 # load default settings from ILCSOFT_CMAKE_MODULES
 INCLUDE( ilcsoft_default_settings )
 
 FIND_PACKAGE( Marlin 1.0 REQUIRED ) # minimum required Marlin version
-INCLUDE_DIRECTORIES( ${Marlin_INCLUDE_DIRS} )
+INCLUDE_DIRECTORIES( SYSTEM ${Marlin_INCLUDE_DIRS} )
 LINK_LIBRARIES( ${Marlin_LIBRARIES} )
 ADD_DEFINITIONS( ${Marlin_DEFINITIONS} )
 
@@ -70,16 +70,11 @@ ENDIF()
 
 ### LIBRARY #################################################################
 
-# definitions to pass to the compiler
-ADD_DEFINITIONS( "-Wall -ansi -pedantic " )
-ADD_DEFINITIONS( "-Wno-long-long" )
-
 # include directories
-INCLUDE_DIRECTORIES( ./include )
-#INSTALL_DIRECTORY( ./include DESTINATION . FILES_MATCHING PATTERN "*.h" )
+INCLUDE_DIRECTORIES( ./source/include )
 
 # add library
-AUX_SOURCE_DIRECTORY( ./src library_sources )
+AUX_SOURCE_DIRECTORY( ./source/src library_sources )
 ADD_SHARED_LIBRARY( ${PROJECT_NAME} ${library_sources} )
 INSTALL_SHARED_LIBRARY( ${PROJECT_NAME} DESTINATION lib )
 
